@@ -1,7 +1,7 @@
 ﻿using WebApplication.Domain.Entities;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 
-namespace WebApplication.Infraestructure.Repositories
+namespace WebApplication.Infrastructure.Repositories
 {
     public interface IBitacoraRepository
     {
