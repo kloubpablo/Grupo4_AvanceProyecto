@@ -1,13 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WebApplication.Domain.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using WebApplication.Models;
 
 namespace WebApplication.Infrastructure.Data
 {
-    public class AppDbContext
+    public class AppDbContext : DbContext
     {
-        public DbSet<BitacoraEvento> BitacoraEventos { get; set; }
+
+     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        
+        
+        {
+        }
+
+        public DbSet<BitacoraEvento> BITACORA_EVENTOS { get; set; }
+
+
+
     }
-
-    
-
 }

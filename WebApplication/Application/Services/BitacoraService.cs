@@ -1,33 +1,40 @@
-﻿using WebApplication.Application.Interfaces;
-using WebApplication.Domain.Entities;
-using WebApplication.Infrastructure.Repositories;
-using System;
-using System.Text.Json;
-
+﻿using System.Text.Json;
+using WebApplication.Application.Interfaces;
+using WebApplication.Infrastructure.Data;
 
 namespace WebApplication.Application.Services
 {
     public class BitacoraService : IBitacoraService
     {
-        private readonly IBitacoraRepository _repository;
+        private readonly AppDbContext _context;
 
-        public BitacoraService(IBitacoraRepository repository)
+        public BitacoraService(AppDbContext context)
         {
-            _repository = repository;
+            _context = context;
         }
 
-        public void RegistrarEvento(string modulo, string accion, string datosAntes, string datosDespues, string usuario)
+        public async Task RegistrarEventoAsync(
+            string tabla,
+            string tipoEvento,
+            object datosAnteriores,
+            object datosPosteriores,
+            string descripcion = "",
+            string strackTrace = ""
+        )
         {
-            var evento = new BitacoraEvento
+            var evento = new Domain.Entities.BitacoraEvento
             {
-                Modulo = modulo,
-                Accion = accion,
-                DatosAntes = datosAntes,
-                DatosDespues = datosDespues != null ? JsonSerializer.Serialize(datosAntes) : null,
-                Fecha = DateTime.UtcNow,
-                Usuario = usuario
+                TablaDeEvento = tabla,
+                TipoDeEvento = tipoEvento,
+                FechaDeEvento = DateTime.UtcNow,
+                DescripcionDeEvento = descripcion,
+                StrackTrace = strackTrace,
+                DatosAnteriores = JsonSerializer.Serialize(datosAnteriores),
+                DatosPosteriores = JsonSerializer.Serialize(datosPosteriores)
             };
-            _repository.Add(evento);
+            await _context.BITACORA_EVENTOS.AddAsync(evento);
+            await _context.SaveChangesAsync();
+
         }
     }
 }
