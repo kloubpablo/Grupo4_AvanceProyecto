@@ -1,4 +1,6 @@
-﻿using WebApplicationAPP.Models;
+﻿using System;
+using System.Linq;
+using WebApplicationAPP.Models;
 using WebApplicationAPP.Repositories;
 
 namespace WebApplicationAPP.Bussines
@@ -21,6 +23,15 @@ namespace WebApplicationAPP.Bussines
         ////////////////////// REGISTRAR //////////////////////
         public void Registrar(Comercio comercio)
         {
+            // Validar identificación duplicada
+            var existe = _repo.ObtenerTodos()
+                              .Any(x => x.Identificacion == comercio.Identificacion);
+
+            if (existe)
+            {
+                throw new Exception("Ya existe un comercio con esa identificación.");
+            }
+
             comercio.FechaDeRegistro = DateTime.Now;
             comercio.Estado = true;
 
@@ -30,11 +41,24 @@ namespace WebApplicationAPP.Bussines
         ////////////////////// EDITAR //////////////////////
         public void Editar(Comercio comercio)
         {
-            comercio.FechaDeModificacion = DateTime.Now;
+            var comercioBD = _repo.ObtenerPorId(comercio.IdComercio);
 
-            _repo.Actualizar(comercio);
+            if (comercioBD == null)
+                throw new Exception("El comercio no existe.");
+
+            // Solo actualizar los campos permitidos
+            comercioBD.Nombre = comercio.Nombre;
+            comercioBD.TipoDeComercio = comercio.TipoDeComercio;
+            comercioBD.Telefono = comercio.Telefono;
+            comercioBD.CorreoElectronico = comercio.CorreoElectronico;
+            comercioBD.Direccion = comercio.Direccion;
+            comercioBD.Estado = comercio.Estado;
+            comercioBD.FechaDeModificacion = DateTime.Now;
+
+            _repo.Actualizar(comercioBD);
         }
 
+        ////////////////////// OBTENER POR ID //////////////////////
         public Comercio Obtener(int id)
         {
             return _repo.ObtenerPorId(id);
