@@ -1,7 +1,44 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
+using Microsoft.EntityFrameworkCore;
+using WebApplicationAPP.Business;
+using WebApplicationAPP.Bussines;
+using WebApplicationAPP.Data;
+using WebApplicationAPP.Repositories;
+using WebApplicationAPP.Services;
+
+var builder = global::Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("MysqlConnection"),
+        ServerVersion.AutoDetect(
+            builder.Configuration.GetConnectionString("MysqlConnection")
+        )
+    );
+});
+
+builder.Services.AddScoped<ICajaRepository, CajaRepository>();
+builder.Services.AddScoped<CajaBussiness>();
+
+
+builder.Services.AddScoped<ISinpeRepository, SinpeRepository>();
+builder.Services.AddScoped<SinpeBusiness>();
+
+builder.Services.AddScoped<IComercioRepository, ComercioRepository>();
+builder.Services.AddScoped<ComercioBussines>();
+
+builder.Services.AddScoped<IBitacoraRepository, BitacoraRepository>();
+builder.Services.AddScoped<IBitacoraService, BitacoraService>();
+
+//Repositorio
+//CapaBussine
+
 
 var app = builder.Build();
 
@@ -14,16 +51,14 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
 app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

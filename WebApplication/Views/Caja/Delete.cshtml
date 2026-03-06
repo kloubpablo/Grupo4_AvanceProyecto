@@ -1,0 +1,58 @@
+﻿@model WebApplicationAPP.Models.Cajas
+
+@{
+    ViewBag.Title = "Eliminar Caja";
+}
+
+<h2>Eliminar Caja</h2>
+
+<form asp-action="Delete" method="post">
+
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input type="text"
+               class="form-control"
+               asp-for="Nombre"
+               disabled />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Descripción</label>
+        <input type="text"
+               class="form-control"
+               asp-for="Descripcion"
+               disabled />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Teléfono SINPE</label>
+        <input type="text"
+               class="form-control"
+               asp-for="TelefonoSINPE"
+               disabled />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Estado</label>
+        <input type="text"
+               class="form-control"
+               value="@(Model.Estado ? "Activo" : "Inactivo")"
+               disabled />
+    </div>
+
+    <div class="mb-3">
+        <button type="submit"
+                class="btn btn-danger">
+            Eliminar
+        </button>
+
+        <a asp-action="Index"
+           class="btn btn-light">
+            Cancelar
+        </a>
+    </div>
+
+</form>

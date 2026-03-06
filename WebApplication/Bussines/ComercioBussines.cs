@@ -43,7 +43,7 @@ namespace WebApplicationAPP.Bussines
             if (comercioBD == null)
                 throw new Exception("El comercio no existe.");
 
-            // Solo actualizar los campos permitidos
+
             comercioBD.Nombre = comercio.Nombre;
             comercioBD.TipoDeComercio = comercio.TipoDeComercio;
             comercioBD.Telefono = comercio.Telefono;

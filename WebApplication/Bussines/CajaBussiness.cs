@@ -79,7 +79,5 @@ namespace WebApplicationAPP.Bussines
         public void DeleteCaja(int id) {
             _cajaRepository.DeleteCaja(id);
         }   
-
-
     }
 }
