@@ -1,11 +1,18 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication.Models;
+using System.Diagnostics;
+using WebApplicationAPP.Models;
 
-namespace WebApplication.Controllers
+namespace WebApplicationAPP.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+
         public IActionResult Index()
         {
             return View();
