@@ -1,7 +1,6 @@
 ﻿using WebApplicationAPP.Data;
 using WebApplicationAPP.Models;
 
-
 namespace WebApplicationAPP.Repositories
 {
     public class SinpeRepository : ISinpeRepository
@@ -23,8 +22,5 @@ namespace WebApplicationAPP.Repositories
         {
             return _context.Sinpe.ToList();
         }
-
-
-
     }
 }
